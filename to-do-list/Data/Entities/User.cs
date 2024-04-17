@@ -19,7 +19,6 @@ namespace to_do_list.Data.Entities
         [Required]
         public string address { get; set; }
 
-        public ICollection<ToDoItem> ToDoItems { get; set; }
 
     }
 }

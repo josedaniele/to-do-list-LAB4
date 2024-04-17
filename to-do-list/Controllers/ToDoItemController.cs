@@ -11,16 +11,18 @@ namespace to_do_list.Controllers
     public class ToDoItemController : ControllerBase
     {
         private readonly IToDoITemService _toDoItemService;
-        public ToDoItemController(IToDoITemService toDoItemService)
+        private readonly IUserService _userService;
+        public ToDoItemController(IToDoITemService toDoItemService, IUserService userService)
         {
             _toDoItemService = toDoItemService;
+            _userService = userService;
         }
         [HttpGet]
         public IActionResult GetToDoItems()
         {
-            return Ok(_toDoItemService.GetToDoItems);
+            return Ok(_toDoItemService.GetToDoItems());
         }
-        [HttpGet("{id_item}", Name = nameof(GetToDoItemById))]
+        [HttpGet("Item", Name = nameof(GetToDoItemById))]
         public IActionResult GetToDoItemById(int id)
         {
 
@@ -29,10 +31,14 @@ namespace to_do_list.Controllers
                 return NotFound("Item no encontrado");
             return Ok(toDoItem);
         }
-        [HttpGet("{id_user}", Name = nameof(GetToDoItemsByUserId))]
-        public IActionResult GetToDoItemsByUserId(int id)
+        [HttpGet("{email}", Name = nameof(GetToDoItemsByUserEmail))]
+        public IActionResult GetToDoItemsByUserEmail(string email)
         {
-            var ToDoItems = _toDoItemService.GetToDoItemsByUserId(id);
+            if(_userService.GetUserByEmail(email) == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+            var ToDoItems = _toDoItemService.GetToDoItemsByUserEmail(email);
             return Ok(ToDoItems);
         }
         [HttpPost]
@@ -47,7 +53,7 @@ namespace to_do_list.Controllers
 
             await _toDoItemService.SaveChangesAsync();
 
-            return CreatedAtRoute(nameof(GetToDoItemsByUserId), new { idUser = toDoItemForCreation.UserId }, toDoItemForCreation);
+            return Ok(toDoItemForCreation);
         }
         [HttpPut("{id_item}")]
         public async Task<IActionResult> EditToDoItem(int id_item, EditToDoItemDto toDoItemEdited)

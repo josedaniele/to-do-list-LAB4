@@ -31,8 +31,8 @@ namespace to_do_list.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            User? userEntity = _mapper.Map<User>(user);
-            _context.Add(user);
+            User? userNew = _mapper.Map<User>(user);
+            _context.Add(userNew);
         }
         public void EditUser(UserDto userUpdated, User userToUpdate)
         {

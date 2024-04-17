@@ -16,7 +16,7 @@ namespace to_do_list.Data.Entities
         public string description { get; set; }
 
         [Required]
-        [ForeignKey("UserId")]
+        [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }
     }

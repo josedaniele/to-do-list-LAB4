@@ -1,4 +1,6 @@
 using to_do_list.Context;
+using to_do_list.Services.Implementations;
+using to_do_list.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("ToDoListDBConnectionString");
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped(x => new ToDoListContext(connectionString));
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IToDoITemService, ToDoItemService>();
 var app = builder.Build();
 
 

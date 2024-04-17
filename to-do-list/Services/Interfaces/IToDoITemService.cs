@@ -6,7 +6,7 @@ namespace to_do_list.Services.Interfaces
     public interface IToDoITemService
     {
         List<ToDoItem> GetToDoItems();
-        List<ToDoItem> GetToDoItemsByUserId(int userId);
+        List<ToDoItem> GetToDoItemsByUserEmail(string email);
         ToDoItem GetToDoItemById(int itemId);
         void AddToDoItem(ToDoItemDto toDoItem);
 

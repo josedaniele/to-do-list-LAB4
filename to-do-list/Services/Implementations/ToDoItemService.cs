@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using to_do_list.Context;
 using to_do_list.Data.Entities;
 using to_do_list.Models;
@@ -17,23 +18,20 @@ namespace to_do_list.Services.Implementations
         }
         public List<ToDoItem> GetToDoItems()
         {
-            return _context.ToDoItems.ToList();
+            return _context.ToDoItems
+                .Include(a => a.User)
+                .ToList();
         }
-        public List<ToDoItem> GetToDoItemsByUserId(int userId)
+        public List<ToDoItem> GetToDoItemsByUserEmail(string email)
         {
-            if(_context.Users.SingleOrDefault(u => u.id_user == userId)!= null)
-            {
-            return _context.ToDoItems.Where(tdi => tdi.UserId == userId).ToList();
-            }
-            else
-            {
-                throw new InvalidOperationException("El usuario especificado no existe.");
-            }
+            return _context.ToDoItems.Where(tdi => tdi.User.email == email).ToList();
         }
 
         public ToDoItem GetToDoItemById(int itemId)
         {
-            return _context.ToDoItems.SingleOrDefault(tdi => tdi.id_todo_item == itemId);
+            return _context.ToDoItems
+                .Include(a => a.User)
+                .SingleOrDefault(tdi => tdi.id_todo_item == itemId);
         }
 
         public void AddToDoItem(ToDoItemDto toDoItem)
