@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using to_do_list.Data.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace to_do_list.Models
 {
-    public class ToDoItemDto
+    public class EditToDoItemDto
     {
 
         [Required]
@@ -14,8 +12,5 @@ namespace to_do_list.Models
         [Required]
         [RegularExpression(@"^[\w\s]{1,255}$", ErrorMessage = "La descripción no puede tener mas de 255 caracteres")]
         public string description { get; set; }
-
-        [Required]
-        public int UserId { get; set; }
     }
 }
