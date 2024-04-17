@@ -34,10 +34,9 @@ namespace to_do_list.Services.Implementations
             User? userEntity = _mapper.Map<User>(user);
             _context.Add(user);
         }
-        public void EditUser(UserDto userUpdated, int id)
+        public void EditUser(UserDto userUpdated, User userToUpdate)
         {
-            User userToEdit = _context.Users.SingleOrDefault(u => u.id_user == id);
-            User userEdited = _mapper.Map(userUpdated, userToEdit);
+            User userEdited = _mapper.Map(userUpdated, userToUpdate);
             _context.Users.Update(userEdited);
         }
 

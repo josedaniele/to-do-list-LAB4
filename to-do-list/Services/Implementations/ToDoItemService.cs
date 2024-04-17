@@ -19,35 +19,42 @@ namespace to_do_list.Services.Implementations
         {
             return _context.ToDoItems.ToList();
         }
+        public List<ToDoItem> GetToDoItemsByUserId(int userId)
+        {
+            return _context.ToDoItems.Where(tdi => tdi.UserId == userId).ToList();
+        }
 
-        public User GetToDoItemById(int itemId)
+        public ToDoItem GetToDoItemById(int itemId)
         {
             return _context.ToDoItems.SingleOrDefault(tdi => tdi.id_todo_item == itemId);
         }
 
-        public void Adduser(UserDto user)
+        public void AddToDoItem(ToDoItemDto toDoItem)
         {
-            if (user == null)
+            if (toDoItem == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                throw new ArgumentNullException(nameof(toDoItem));
             }
-            User? userEntity = _mapper.Map<User>(user);
-            _context.Add(user);
+            ToDoItem? newToDoItem = _mapper.Map<ToDoItem>(toDoItem);
+            _context.ToDoItems.Add(newToDoItem);
         }
-        public void EditUser(UserDto userUpdated, int id)
+        public void UpdateToDoItem(ToDoItemDto toDoItemUpdated, ToDoItem toDoItemToUpdate)
         {
-            User userToEdit = _context.Users.SingleOrDefault(u => u.id_user == id);
-            User userEdited = _mapper.Map(userUpdated, userToEdit);
-            _context.Users.Update(userEdited);
+            ToDoItem toDoItemEdited = _mapper.Map(toDoItemUpdated, toDoItemToUpdate);
+            _context.ToDoItems.Update(toDoItemEdited);
         }
 
-        public void DeleteUser(User userToDeleteDto)
+        public void DeleteToDoItem(ToDoItem toDoItemToDelete)
         {
-            if (userToDeleteDto == null)
+            if (toDoItemToDelete == null)
             {
-                throw new ArgumentNullException(nameof(userToDeleteDto));
+                throw new ArgumentNullException(nameof(toDoItemToDelete));
             }
-            _context.Remove(userToDeleteDto);
+            _context.Remove(toDoItemToDelete);
+        }
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

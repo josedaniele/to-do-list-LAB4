@@ -9,7 +9,7 @@ namespace to_do_list.Services.Interfaces
         User GetUserById(int id);
         void Adduser(UserDto user);
 
-        void EditUser(UserDto userUpdated, int id);
+        void EditUser(UserDto userUpdated, User userToUpdate);
 
         void DeleteUser(User toDoItemToDelete);
         Task<bool> SaveChangesAsync();
