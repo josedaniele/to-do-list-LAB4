@@ -21,7 +21,14 @@ namespace to_do_list.Services.Implementations
         }
         public List<ToDoItem> GetToDoItemsByUserId(int userId)
         {
+            if(_context.Users.SingleOrDefault(u => u.id_user == userId)!= null)
+            {
             return _context.ToDoItems.Where(tdi => tdi.UserId == userId).ToList();
+            }
+            else
+            {
+                throw new InvalidOperationException("El usuario especificado no existe.");
+            }
         }
 
         public ToDoItem GetToDoItemById(int itemId)
@@ -38,7 +45,7 @@ namespace to_do_list.Services.Implementations
             ToDoItem? newToDoItem = _mapper.Map<ToDoItem>(toDoItem);
             _context.ToDoItems.Add(newToDoItem);
         }
-        public void UpdateToDoItem(ToDoItemDto toDoItemUpdated, ToDoItem toDoItemToUpdate)
+        public void UpdateToDoItem(EditToDoItemDto toDoItemUpdated, ToDoItem toDoItemToUpdate)
         {
             ToDoItem toDoItemEdited = _mapper.Map(toDoItemUpdated, toDoItemToUpdate);
             _context.ToDoItems.Update(toDoItemEdited);

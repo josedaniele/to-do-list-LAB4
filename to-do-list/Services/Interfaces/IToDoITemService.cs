@@ -10,7 +10,7 @@ namespace to_do_list.Services.Interfaces
         ToDoItem GetToDoItemById(int itemId);
         void AddToDoItem(ToDoItemDto toDoItem);
 
-        void UpdateToDoItem(ToDoItemDto toDoItemUpdated, ToDoItem toDoItemToUpdate);
+        void UpdateToDoItem(EditToDoItemDto toDoItemUpdated, ToDoItem toDoItemToUpdate);
 
         void DeleteToDoItem(ToDoItem toDoItemToDelete);
 
